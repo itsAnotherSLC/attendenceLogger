@@ -2,43 +2,51 @@ package attedenceLoggerID;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Random;
 
 import javax.swing.JTable;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
 public class AttendenceScatterPlot extends AttendenceDisplayable {
 	
-	private JTable jt;
-	private String [][] data;
-	private String column[];
+	private ChartPanel plot; 
+	private JFreeChart chart;
 	
 	public AttendenceScatterPlot() {
-		
-		jt=new JTable(data,column);         
-	    jt.setRowHeight(20);
-	    jt.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-	    jt.getColumnModel().getColumn(0).setPreferredWidth(100);
-	    jt.getColumnModel().getColumn(3).setPreferredWidth(100);
+		 intializeChart();
+		 plot = new ChartPanel(chart);
 	}
 	
-	
-	public void updateDisplayable() {
-		int entries = 0;
-		for(Map.Entry mapElement : AttendenceList.entrySet()) {	//For each entry in the hashmap
-			 String[] nextInfo =(String[]) AttendenceList.get(mapElement.getKey());
-			 
-			 if(AttendenceList.containsKey(mapElement.getKey())) {
-				 System.out.println("Duplicate Item!");
-			 }
-			 else {	//Insert item into next avalible row
-				System.out.println("nextInfo:" + nextInfo);
-				if(column.length == 0) {
-					column = nextInfo;
-				}
-				else {
-				 	data[entries] = nextInfo; 
-				 }
-			 }
-			 entries++;
-		}
+	public void intializeChart() {
+		  // create a chart...
+	      chart = ChartFactory.createScatterPlot(
+	    		   "Scatter Plot", 	// chart title
+	               "X", 			// x axis label
+	               "Y",				// y axis label
+	               createDataset(), // data  
+	               PlotOrientation.VERTICAL,
+	               true, // include legend
+	               true, // tooltips
+	               false // urls
+	      );
 	}
+	public static XYDataset createDataset() {
+		    Random r = new Random();
+	        XYSeriesCollection result = new XYSeriesCollection();
+	        XYSeries series = new XYSeries("Random");
+	        for (int i = 0; i <= 100; i++) {
+	            double x = r.nextDouble();
+	            double y = r.nextDouble();
+	            series.add(x, y);
+	        }
+	        result.addSeries(series);
+	        return result;
+	    }
 }

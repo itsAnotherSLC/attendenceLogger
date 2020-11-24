@@ -12,8 +12,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
+
+import com.opencsv.CSVWriter;
+
+
 
 public class AttendenceExecutable {
 
@@ -28,22 +34,34 @@ public class AttendenceExecutable {
 
 	
 	public static void drawInterface() {
+		
+			//Source Object
 	    	AttendenceSource source = new AttendenceSource();
+	    	//Table Object
 	    	AttendenceTable table = new AttendenceTable();
 	    	AttendenceScatterPlot scatterPlot = new AttendenceScatterPlot();
 		
 		
 			mainFrame = new JFrame();
 			mainFrame.setLayout(new BorderLayout());
+			
+			JScrollPane sp=new JScrollPane(table.getTable());
+	        sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+	        sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	        sp.setHorizontalScrollBar(new JScrollBar(JScrollBar.HORIZONTAL));
+	        sp.setVerticalScrollBar(new JScrollBar());     
 			 
 			JPanel tablePanel = new JPanel();
 			JPanel plotPanel = new JPanel();
 			AttendencePanel attendencePanel = new AttendencePanel(table);
-			table.addDrawable(scatterPlot);
+			source.addObserver(attendencePanel);
 			
-			
+			 //add scroll pane with a Jtable
+	        tablePanel.add(sp,BorderLayout.CENTER);
+			table.addDisplayable(scatterPlot);
 			
 			JSplitPane split = new JSplitPane(SwingConstants.VERTICAL, tablePanel, plotPanel);
+			     
 			 
 			Menu menu = new Menu();
 			 
@@ -58,10 +76,11 @@ public class AttendenceExecutable {
 	
 	 private static class Menu implements ActionListener{
 		 
-		private boolean includeRoster;
-		private boolean attemptedSave;
+		private boolean includeRoster;	//if a csv file is found
+		private boolean attemptedSave;	//if file has been saved
 			
 		public Menu() {
+			//default conditions
 			includeRoster = false;
 			attemptedSave = false;
 		
@@ -111,6 +130,7 @@ public class AttendenceExecutable {
 			switch(e.getActionCommand()) {
 			
 			case "Load a Roster": 
+				System.out.println("Loading Roster");
 				/*if(!attemptedSave) {
 					int saveMessage = JOptionPane.showConfirmDialog(mainFrame,"Would you like to save the current Roster?", "Swing Tester",
 				               JOptionPane.YES_NO_CANCEL_OPTION,
@@ -125,18 +145,31 @@ public class AttendenceExecutable {
 					else if (saveMessage == JOptionPane.CANCEL_OPTION){
 			            	
 			        }*/
-				JFileChooser fc = new JFileChooser(new File("/Users/austinwright/eclipse-workspace-2020/attedenceLoggerID/src/main/resources/CSVs"));
-				fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				
-				break;
+			JFileChooser fc = new JFileChooser(new File("/Users/austinwright/eclipse-workspace-2020/attedenceLoggerID/src/main/resources/CSVs"));
+			fc.setDialogTitle("Please select a .csv file");
+			fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+			fc.showSaveDialog(null);
+			fc.addChoosableFileFilter(new CSVFilter());
+			
+			
+			if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) { 
+			    System.out.println("getCurrentDirectory(): " 
+			       +  fc.getCurrentDirectory());
+			    System.out.println("getSelectedFile() : " 
+			           +  fc.getSelectedFile());
+			        }
+			  else {
+			    System.out.println("No Selection ");
+			}
+			break;
 				
 			case "Add Attendence":
-			
+				System.out.println("Add Attendence");
 			break;
 			
 			
 			case "Save":
-			
+				System.out.println("Save Attendence");
 			break;
 			
 			case "Plot Data":
@@ -159,6 +192,17 @@ public class AttendenceExecutable {
 				System.out.println(e.getActionCommand());
 			}
 		}
+		
+//https://stackoverflow.com/questions/7076083/filefilter-for-jfilechooser-doesnt-filter-files-dont-why-have-code
+		private class CSVFilter extends javax.swing.filechooser.FileFilter {
+		      public boolean accept(File f) {
+		          return f.isFile() && f.getName().toLowerCase().endsWith(".csv");
+		        }
+
+		        public String getDescription() {
+		          return "*.csv";
+		        }
+		      }
 		
 	}
 }

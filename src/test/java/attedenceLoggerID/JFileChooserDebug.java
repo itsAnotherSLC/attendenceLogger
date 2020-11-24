@@ -4,15 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-
-public class AttendenceLogic {
+public class JFileChooserDebug {
 
 	@Test
 	public void test() {
-		System.out.println("Hello");
+		fail("Not yet implemented");
 	}
-	
-	
-	
 
 }

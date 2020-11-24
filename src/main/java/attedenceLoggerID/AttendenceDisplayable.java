@@ -7,6 +7,7 @@ import java.util.Map;
 public abstract class AttendenceDisplayable {
 	
 	protected HashMap<String, String[]> AttendenceList;
+	protected AttendenceDisplayable displayable;
 	
 	public boolean addAttendee(String[] info) {
 		String key = Arrays.toString(info);
@@ -15,6 +16,10 @@ public abstract class AttendenceDisplayable {
 			return true;
 		}
 		return false;
+	}
+	
+	public void addDisplayable(AttendenceDisplayable displayable) {
+		this.displayable = displayable;
 	}
 	
 	public boolean isFound(String[] info) {
