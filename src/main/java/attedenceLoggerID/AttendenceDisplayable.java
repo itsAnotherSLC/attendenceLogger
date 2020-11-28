@@ -1,38 +1,28 @@
 package attedenceLoggerID;
 
+import java.awt.Component;
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Vector;
 
-public abstract class AttendenceDisplayable {
-	
-	protected HashMap<String, String[]> AttendenceList;
-	protected AttendenceDisplayable displayable;
-	
-	public boolean addAttendee(String[] info) {
-		String key = Arrays.toString(info);
-		if(!AttendenceList.containsKey(key)) {
-			AttendenceList.put(key, info);
-			return true;
-		}
-		return false;
-	}
-	
-	public void addDisplayable(AttendenceDisplayable displayable) {
-		this.displayable = displayable;
-	}
-	
-	public boolean isFound(String[] info) {
-		String key = Arrays.toString(info);
-		if(!AttendenceList.containsKey(key)) {
-			return true;
-		}
-		return false;
-	}
-	
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.ListModel;
 
+public abstract class AttendenceDisplayable  extends Component{
+	
+	protected String[][] dataTable;
+	protected ArrayList<String> newNames;
+
+	public void addAttendee(String[][] array) {
+		dataTable = array;
+	}
+	
+	public String[][] getInfo() {
+		return dataTable;
+	}
+	
 	public void updateDisplayable() {
-		
-		
 	}
 }

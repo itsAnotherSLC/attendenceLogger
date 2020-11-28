@@ -24,6 +24,10 @@ public class AttendenceScatterPlot extends AttendenceDisplayable {
 		 plot = new ChartPanel(chart);
 	}
 	
+	public void  updateDisplayable() {
+		System.out.println("Update AttendenceScatterPlot");
+	}
+	
 	public void intializeChart() {
 		  // create a chart...
 	      chart = ChartFactory.createScatterPlot(
@@ -37,6 +41,7 @@ public class AttendenceScatterPlot extends AttendenceDisplayable {
 	               false // urls
 	      );
 	}
+	
 	public static XYDataset createDataset() {
 		    Random r = new Random();
 	        XYSeriesCollection result = new XYSeriesCollection();
