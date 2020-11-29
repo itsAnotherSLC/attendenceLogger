@@ -1,4 +1,5 @@
 package attedenceLoggerID;
+import java.awt.BorderLayout;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,10 +17,10 @@ public class DataPanel extends JPanel  implements Observer{
 		
 		if(((boolean)arg)) {
 			displayable.intializeDisplayable(((StudentListSource) o).getData());
-			this.add(displayable);
+			this.add(displayable, BorderLayout.CENTER);
 		}
 		else {
-			//displayable.addAtendence(((StudentListSource) o).getData());
+			displayable.addNewAttendence(((StudentListSource) o).getData());
 		}
 		
 	}

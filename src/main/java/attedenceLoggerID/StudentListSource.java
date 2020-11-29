@@ -32,4 +32,21 @@ public class StudentListSource extends Observable {
 		notifyObservers(newData);
 	}
 	
+	
+	public void addAttendence(String pathName) {
+		dataArray = new String[10][10];
+		boolean newData = false;
+		
+		
+		try (CSVReader reader = new CSVReader(new BufferedReader(new FileReader(pathName)));) {
+		    List<String[]> lines = reader.readAll();
+		    dataArray = lines.toArray(new String[lines.size()][]);
+		    
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		setChanged();
+		notifyObservers(newData);
+	}
+	
 }

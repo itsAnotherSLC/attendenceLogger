@@ -22,4 +22,8 @@ public class displayableData extends Component{
 		}
 	}
 	
+	public void addNewAttendence(String[][] attendence) {
+		
+	}
+	
 }
