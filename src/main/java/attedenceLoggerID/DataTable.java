@@ -39,38 +39,28 @@ public class DataTable extends displayableData {
 	
 	public void addNewAttendence(String[][] attendence) {
 		findNewAttendenceDate();
-		String[][] updatedTable = new String[this.getInfo().length][this.getInfo()[0].length + 1];
+		
 		newAttendence = new String[attendence.length];
 		for(int i = 0 ; i < attendence.length ; i++) {
-			if(this.isFound(attendence[i][0]) != -1) {
-				newAttendence[i] = attendence[i][1];
-			}
+			newAttendence[i] = attendence[i][1];
 		}
 	}
 	
 	public void fillAttendence(String date) {
 		model.addColumn(date, newAttendence);
 		
-		//for(int i = 0 ; i < dataTable.length ; i++) {
-			//if(this.isFound(dataTable[i][0]) != -1) {
-				//newAttendence[i] = attendence[i][1];
-				//model.setValueAt(newAttendence[i][1], this.isFound(newAttendence[i][0]), model.getColumnCount() - 1);
-			//}
-		//}
-	}
-	
-	public int isFound(String id) {
-		int i = 0;
-		while(id.compareTo(dataTable[i][5]) != 0)
-		{
-			i++;
+		String[][] updatedTable = new String[model.getRowCount()][model.getColumnCount()];
+		for(int i = 0 ; i < dataTable.length ; i++) {
+			for(int j = 0 ; j < dataTable[0].length ; j++) {
+				updatedTable[i][j] = (String) model.getValueAt(i, j);
+			}
 		}
-		if(id.compareTo(dataTable[i][5]) == 0) {
-			return i;
+		
+		for(int i = 0 ; i < updatedTable.length ; i++) {
+			updatedTable[i][model.getColumnCount() - 1] = newAttendence[i];
 		}
-		return -1;
+		this.intializeDisplayable(updatedTable);
 	}
-	
 	
 	public void findNewAttendenceDate() {
 		CalenderSelector datePane = new CalenderSelector();

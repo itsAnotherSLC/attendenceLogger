@@ -3,18 +3,24 @@ package attedenceLoggerID;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
+
+import com.opencsv.CSVWriter;
 
 public class mainApplication {
 
@@ -50,7 +56,6 @@ public class mainApplication {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	
 	public static void buildTable(){
 		JScrollPane sp=new JScrollPane(table.getTable());
         sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -62,8 +67,16 @@ public class mainApplication {
         mainFrame.setSize(500,601);
 	}
 	
-	public static void addAttendence(){
-		
+	public static void saveData(String[][] data, String fileName) throws IOException{
+		if(!fileName.contains(".csv")) {
+			fileName = fileName + ".csv";
+		}
+		FileWriter outputfile = new FileWriter(fileName); 
+		CSVWriter writer = new CSVWriter(outputfile);
+		for(int i = 0 ; i < data.length ; i ++) {
+			writer.writeNext(data[i]);
+		}
+		writer.close();
 	}
 	
 	public static void buildMenuBar() {
@@ -123,6 +136,36 @@ public class mainApplication {
 						
 					}
 				}
+	       });
+	       
+	       m3.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int saveMessage = JOptionPane.showConfirmDialog(mainFrame,"Would you like to save the current Roster?", "Swing Tester",
+			               JOptionPane.YES_NO_CANCEL_OPTION,
+			               JOptionPane.QUESTION_MESSAGE);
+				if(saveMessage == JOptionPane.YES_OPTION){
+					JFileChooser fc = new JFileChooser(new File("/Users/austinwright/eclipse-workspace-2020/AttendenceLoggerRebuild/src/main/resources/CSVs"));
+					fc.showSaveDialog(new JFrame());
+					fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+					 String[][] date = table.getInfo();
+		               try {
+						saveData(date,fc.getSelectedFile().getName());
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		        }
+				else if (saveMessage == JOptionPane.NO_OPTION){
+		              
+		            	
+		        }
+				else if (saveMessage == JOptionPane.CANCEL_OPTION){
+		            	
+		        }
+			}
+	    	   
 	       });
 	       mainFrame.setJMenuBar(mb); 
 	}
