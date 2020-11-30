@@ -6,9 +6,9 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 public class DataPanel extends JPanel  implements Observer{
-	protected displayableData displayable;
+	protected DisplayableData displayable;
 	
-	public DataPanel(displayableData displayable) {
+	public DataPanel(DisplayableData displayable) {
 		this.displayable = displayable;
 	}
 

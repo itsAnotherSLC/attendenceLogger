@@ -2,8 +2,9 @@ package attedenceLoggerID;
 
 import java.awt.Component;
 
-public class displayableData extends Component{
+public class DisplayableData extends Component{
 	protected String[][] dataTable;
+	protected static String header[] = {"ID","First Name", "Last Name", "Program", " Academic Level", "ASURITE"};
 	
 	public void intializeDisplayable(String[][] dataTable) {
 		this.dataTable = dataTable;

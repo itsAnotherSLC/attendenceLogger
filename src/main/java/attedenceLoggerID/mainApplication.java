@@ -20,6 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 
+import org.jfree.chart.ChartPanel;
+
 import com.opencsv.CSVWriter;
 
 public class mainApplication {
@@ -28,14 +30,17 @@ public class mainApplication {
 	private static DataPanel dataPanel;
 	private static StudentListSource rosterSource;
 	private static DataTable table;
+	private static DataPlot plot;
+	private static JPanel plotPanel;
+	private static JSplitPane split;
 	
 	public static void main(String[] args) {
 		buildMainFrame();
 		buildMenuBar();
 		configureSource();
 		
-		
-		JSplitPane split = new JSplitPane(SwingConstants.VERTICAL, dataPanel, new JPanel());
+		plotPanel = new JPanel();
+		split = new JSplitPane(SwingConstants.VERTICAL, dataPanel, plotPanel);
 		split.setResizeWeight(0.5d); //switch to 1d for when no graph is present
 		mainFrame.add(split, BorderLayout.CENTER);
 		mainFrame.setVisible(true);
@@ -43,6 +48,8 @@ public class mainApplication {
 	
 	public static void configureSource() {
 		table = new DataTable();
+		plot = new DataPlot();
+		table.addDisplayableDataType(plot);
 		dataPanel = new DataPanel(table);
 		dataPanel.setLayout(new BorderLayout());
 		rosterSource = new StudentListSource();
@@ -52,7 +59,7 @@ public class mainApplication {
 	public static void buildMainFrame() {
 		mainFrame = new JFrame();
 		mainFrame.setLayout(new BorderLayout());
-		mainFrame.setSize(500,600);
+		mainFrame.setSize(900,900);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -64,7 +71,16 @@ public class mainApplication {
         sp.setVerticalScrollBar(new JScrollBar());
        
         dataPanel.add(sp,BorderLayout.CENTER);
-        mainFrame.setSize(500,601);
+        mainFrame.setSize(2000,900);
+	}
+	
+	public static void buildPlot(){
+		System.out.println("------------------------------------------------------");
+		plot = new DataPlot();
+		plot.intializeDisplayable(table.getInfo());
+		plotPanel.add(plot.getChart());
+		mainFrame.setSize(2000,901);
+		split.setResizeWeight(0.2d);
 	}
 	
 	public static void saveData(String[][] data, String fileName) throws IOException{
@@ -133,7 +149,7 @@ public class mainApplication {
 						File newFile = fc.getSelectedFile();
 						String newPath = newFile.getAbsolutePath();
 						rosterSource.addAttendence(newPath);
-						
+						m4.setEnabled(true);
 					}
 				}
 	       });
@@ -142,14 +158,15 @@ public class mainApplication {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc;
 				int saveMessage = JOptionPane.showConfirmDialog(mainFrame,"Would you like to save the current Roster?", "Swing Tester",
-			               JOptionPane.YES_NO_CANCEL_OPTION,
+			               JOptionPane.YES_NO_OPTION,
 			               JOptionPane.QUESTION_MESSAGE);
 				if(saveMessage == JOptionPane.YES_OPTION){
-					JFileChooser fc = new JFileChooser(new File("/Users/austinwright/eclipse-workspace-2020/AttendenceLoggerRebuild/src/main/resources/CSVs"));
+					fc = new JFileChooser(new File("/Users/austinwright/eclipse-workspace-2020/AttendenceLoggerRebuild/src/main/resources/CSVs"));
 					fc.showSaveDialog(new JFrame());
 					fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-					 String[][] date = table.getInfo();
+					 String[][] date = table.getTableContents();
 		               try {
 						saveData(date,fc.getSelectedFile().getName());
 					} catch (IOException e1) {
@@ -157,13 +174,16 @@ public class mainApplication {
 						e1.printStackTrace();
 					}
 		        }
-				else if (saveMessage == JOptionPane.NO_OPTION){
-		              
-		            	
-		        }
-				else if (saveMessage == JOptionPane.CANCEL_OPTION){
-		            	
-		        }
+			}
+	    	   
+	       });
+	       
+	       
+	       m4.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buildPlot(); 
 			}
 	    	   
 	       });
