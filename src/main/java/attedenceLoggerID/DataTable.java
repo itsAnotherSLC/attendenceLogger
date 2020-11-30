@@ -67,7 +67,6 @@ public class DataTable extends DataDecorative {
 			}
 			if(sum >= 0 && isFound(nextID) != -1) {
 					newAttendence[isFound(nextID)] = sum + " ";
-					System.out.println("isFound( + " + nextID + "): " + isFound(nextID));
 				}
 			}
 			else {
@@ -92,7 +91,7 @@ public class DataTable extends DataDecorative {
 			Long nextID = Long.parseLong(dataTable[i][5]);
 			if(newID.compareTo(nextID) == 0) {
 				return i;
-			}
+			}zs
 		}
 		return -1;
 	}
