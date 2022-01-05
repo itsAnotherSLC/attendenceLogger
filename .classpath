@@ -35,7 +35,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/Users/austinwright/eclipse-workspace-2020/attedenceLoggerID/src/main/resources/opencsv-5.3.jar" sourcepath="src/test/resources"/>
-	<classpathentry kind="lib" path="/Users/austinwright/eclipse-workspace-2020/attedenceLoggerID/src/main/resources/jdatepicker-1.3.4.jar"/>
+	<classpathentry kind="lib" path="/Users/austinwright/eclipse-workspace-2020/AttendenceLoggerRebuild/src/main/resources/opencsv-5.3.jar" sourcepath="src/test/resources"/>
+	<classpathentry kind="lib" path="/Users/austinwright/eclipse-workspace-2020/AttendenceLoggerRebuild/src/main/resources/jdatepicker-1.3.4.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
