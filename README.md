@@ -1,4 +1,4 @@
-# attendenceLogger
+# CSV Data Visualizer 
 Simple Application for displaying and storing attendance data. Uses maven dependencies such as JFreeChart and OpenCSV 
 
 ![Alt Text](IMG1.png?raw=true)
