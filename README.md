@@ -3,8 +3,6 @@ Simple Application for displaying and storing attendance data. Uses maven depend
 
 ![Alt Text](IMG1.png?raw=true)
 
-![Alt Text](IMG1.png?raw=true)
-
 ![Alt Text](IMG2.png?raw=true)
 
 ![Alt Text](IMG3.png?raw=true)
